@@ -77,6 +77,17 @@ function CrearGasto(descripcion, valor, fecha = new Date(), ...etiquetas) {
     };
 }
 
+CrearGasto.prototype.obtenerPeriodoAgrupacion = function(periodo) {
+    const fecha = new Date(this.fecha);
+    const y = fecha.getFullYear();
+    const m = (fecha.getMonth() + 1).toString().padStart(2, "0");
+    const d = fecha.getDate().toString().padStart(2, "0");
+
+    if (periodo === "dia") return `${y}-${m}-${d}`;
+    if (periodo === "anyo") return `${y}`;
+    return `${y}-${m}`;
+};
+
 function listarGastos() {
     return gastos;
 }
@@ -104,6 +115,38 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(filtros = {}) {
+    return gastos.filter(g => {
+        const fechaGasto = new Date(g.fecha);
+        if (filtros.fechaDesde && fechaGasto < new Date(filtros.fechaDesde)) return false;
+        if (filtros.fechaHasta && fechaGasto > new Date(filtros.fechaHasta)) return false;
+        if (filtros.valorMinimo && g.valor < filtros.valorMinimo) return false;
+        if (filtros.valorMaximo && g.valor > filtros.valorMaximo) return false;
+        if (filtros.descripcionContiene && !g.descripcion.toLowerCase().includes(filtros.descripcionContiene.toLowerCase())) return false;
+        if (filtros.etiquetasTiene && filtros.etiquetasTiene.length > 0) {
+            const etiquetasMin = g.etiquetas.map(e => e.toLowerCase());
+            const tiene = filtros.etiquetasTiene.some(e => etiquetasMin.includes(e.toLowerCase()));
+            if (!tiene) return false;
+        }
+        return true;
+    });
+}
+
+function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) {
+    const filtrados = filtrarGastos({
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta,
+        etiquetasTiene: etiquetas.length > 0 ? etiquetas : undefined
+    });
+
+    return filtrados.reduce((acc, g) => {
+        const clave = g.obtenerPeriodoAgrupacion(periodo);
+        if (!acc[clave]) acc[clave] = 0;
+        acc[clave] += g.valor;
+        return acc;
+    }, {});
+}
+
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
@@ -112,5 +155,7 @@ export {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 };
