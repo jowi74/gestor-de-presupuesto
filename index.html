@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Gastos</title>
+</head>
+
+<body>
+    <h1>Gestor de Gastos</h1>
+
+    <h2>Total de gastos: <span id="totalGastos">0</span> €</h2>
+
+    <h2>Crear nuevo gasto</h2>
+    <form id="formGasto">
+        <label for="descripcion">Descripción:</label><br>
+        <input type="text" id="descripcion" required><br><br>
+
+        <label for="valor">Valor (€):</label><br>
+        <input type="number" id="valor" required><br><br>
+
+        <label for="fecha">Fecha:</label><br>
+        <input type="date" id="fecha"><br><br>
+
+        <label for="etiquetas">Etiquetas (separadas por comas):</label><br>
+        <input type="text" id="etiquetas"><br><br>
+
+        <button type="submit">Añadir gasto</button>
+    </form>
+
+    <h2>Listado de gastos</h2>
+    <div id="listaGastos"></div>
+
+    <script type="module" src="./js/gestionPresupuestoWeb1.js"></script>
+</body>
+
+</html>
