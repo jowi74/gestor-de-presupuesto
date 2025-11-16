@@ -1,6 +1,7 @@
-import { CrearGasto, listarGastos, anyadirGasto, borrarGasto, calcularTotalGastos } from "./gestionPresupuesto.js"; //importamos las funciones de gestionPresupuesto
+import { CrearGasto, listarGastos, anyadirGasto, borrarGasto, calcularTotalGastos, guardarGastos, cargarGastos } from "./gestionPresupuesto.js"; //importamos las funciones de gestionPresupuesto
 import "../componentes/mi-gasto.js";
 import "../componentes/formulario-gasto.js";
+
 
 const contenedor = document.querySelector("#contenedor-gastos"); //selecciona el contenedor donde se van a mostrar los gastos
 const totalGastosSpan = document.querySelector("#totalGastos");
@@ -15,3 +16,13 @@ export function mostrarGastos() { //funcion que muestra los gastos en pantalla
     });
     totalGastosSpan.textContent = calcularTotalGastos().toFixed(2); //se calcula el total de los gastos y se actualiza el texto de la pantalla  
 }
+
+document.querySelector("#guardar").addEventListener("click", () => {
+    guardarGastos(); //guarda los gastos en el localStorage
+    alert("Gastos guardados");
+});
+
+document.querySelector("#cargar").addEventListener("click", () => {
+    cargarGastos(); //carga los gastos guardados en el localStorage 
+    mostrarGastos(); //vuelve a mostrar los gastos
+});

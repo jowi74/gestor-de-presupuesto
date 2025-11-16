@@ -9,7 +9,7 @@ class FormularioGasto extends HTMLElement {
     }
 
     render() { //se construye todo el contenido html del componente
-        this.shadowRoot.innerHTML = ` //estructura del html y los estilos del formulario
+        this.shadowRoot.innerHTML = `
             <style>
                 form { display: flex; gap: 10px; margin: 10px 0; }
             </style>

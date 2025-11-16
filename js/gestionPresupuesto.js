@@ -147,6 +147,30 @@ function agruparGastos(periodo = "mes", etiquetas = [], fechaDesde, fechaHasta) 
     }, {});
 }
 
+export function guardarGastos() { //guarda la lista de gastos en un localStorage y se convierte en un json
+    localStorage.setItem("misGastos", JSON.stringify(gastos)); //guarda el array en un string json
+}
+
+
+export function cargarGastos() { //carga la lista desde el localStorage
+    const datos = localStorage.getItem("misGastos"); //recupera los datos guardados
+    if (!datos) return;
+
+    const lista = JSON.parse(datos); //se convierte el string en un array
+
+    gastos.length = 0; //vacia el array global manteniendo la misma referencia
+
+    lista.forEach(g => { //reconstruye el objeto gasto
+        const nuevo = new CrearGasto(
+            g.descripcion,
+            g.valor,
+        );
+        nuevo.id = g.id;
+        gastos.push(nuevo); //se añade el gasto reconstruido al array global
+    });
+    idGasto = gastos.length; //mantiene el contador de id actualizado para evitar que se dupliquen los gastos nuevos
+}
+
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,

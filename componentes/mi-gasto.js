@@ -13,13 +13,13 @@ class MiGasto extends HTMLElement {
     }
 
     render() {
-        this.shadowRoot.innerHTML = ` //se define el contenido del shadow dom
+        this.shadowRoot.innerHTML = `
             <style>
                 .gasto { border: 1px solid #ccc; padding: 5px; margin: 5px 0; }
                 button { margin-left: 5px; }
             </style>
             <div class="gasto">
-                <p>${this._gasto.descripcion} - ${this._gasto.valor} €</p> //se muestra la descripcion y el valor del gasto
+                <p>${this._gasto.descripcion} - ${this._gasto.valor} €</p>
                 <button id="borrar">Borrar</button>
             </div>
         `;
